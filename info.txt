@@ -1,0 +1,8 @@
+1.
+Vou usar docker, a pasta raiz nao vai ser a raiz do meu orojeto django
+Vai ter todas as configuraçoes que envolvem o docker!
+O ambiente virtual em si não é usado depois, é so para desenvolvimento!!
+
+a pasta djangoapp é a raiz em si do projeto!!
+criar nesta pasta um projeto - django-admin startproject project .
+para correr server - python djangoapp/manage.py runserver
