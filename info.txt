@@ -36,3 +36,15 @@ to deleter image - docker image rm id_image
 NOTA: se alterar docker compose ou file ou dotenv temos de buildar de novo
 para subir aplicacoa - docker compose up ou docker compose up -d (para nao ver info)
 para baixar - docker compose down
+
+6.
+FORA DO CONATINER
+Versao do python: docker-compose run --rm djangoapp python -V
+docker-compose run --rm djangoapp pwd
+docker-compose run --rm djangoapp python manage.py makemigrations
+use shell: docker-compose run --rm djangoapp /bin/sh -c '__comando__' (comando linux!)
+use shell: docker-compose run --rm djangoapp /bin/sh -c 'echo $SECRET_KEY'
+
+apos mudancas feitas, para correr p ex: docker-compose run djangoapp runserver.sh
+assim pudemos executar as linhas de comandos que queremso!!
+Nota: qq coisa mudada buildar pq pode nao estar na image!!
