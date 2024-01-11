@@ -21,3 +21,18 @@ alterar coisas settings (env, media, url)
 docker file - informar qual imagem vamos usar la dentro!
 alpine - versao do linux!! utilizada em imagens do docker - gogoleg: https://hub.docker.com/
 o commands.sh vai ser executado toda a vez que eu subir a minha imagem docker!
+
+5.
+docker compose
+o docker file cria a nossa imagem com a configuracao que colocamos, imagem essa que é o django!
+Queremos por a base de dados (postgresql) dentro do docker
+Entao crio um container do django com postgres no compose ( e com outros containers - services
+2 containers - dajngoapp e psql)
+o djangoapp depende do psql
+
+de seguida criar docker compose - docker-compose up --build (baixa imagens e builds e ambiente virtual)
+to delete - docker rm (3 first leters of container id)
+to deleter image - docker image rm id_image
+NOTA: se alterar docker compose ou file ou dotenv temos de buildar de novo
+para subir aplicacoa - docker compose up ou docker compose up -d (para nao ver info)
+para baixar - docker compose down

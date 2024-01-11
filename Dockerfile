@@ -1,5 +1,5 @@
 FROM python:3.12.1-alpine3.18
-LABEL mantainer="miguelmotacarvalho"
+LABEL mantainer="miguelmotacarvalho@gmail.com"
 
 # Essa variável de ambiente é usada para controlar se o Python deve 
 # gravar arquivos de bytecode (.pyc) no disco. 1 = Não, 0 = Sim
