@@ -16,3 +16,8 @@ criar .dotenv com variaveis de ambiente!
 generate secret key:
 python -c  "import string as s; from secrets import SystemRandom as SR;print(''.join(SR().choices(s.ascii_letters+s.digits+s.punctuation,k=64)))
 alterar coisas settings (env, media, url)
+
+4. 
+docker file - informar qual imagem vamos usar la dentro!
+alpine - versao do linux!! utilizada em imagens do docker - gogoleg: https://hub.docker.com/
+o commands.sh vai ser executado toda a vez que eu subir a minha imagem docker!
