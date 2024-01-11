@@ -6,3 +6,7 @@ O ambiente virtual em si não é usado depois, é so para desenvolvimento!!
 a pasta djangoapp é a raiz em si do projeto!!
 criar nesta pasta um projeto - django-admin startproject project .
 para correr server - python djangoapp/manage.py runserver
+
+2.
+requirements.txt - usado dentro do container docker para instalar todas as coisas usadas no projeto!
+dockerignore - nao por files nao necessarios no container
