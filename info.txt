@@ -10,3 +10,9 @@ para correr server - python djangoapp/manage.py runserver
 2.
 requirements.txt - usado dentro do container docker para instalar todas as coisas usadas no projeto!
 dockerignore - nao por files nao necessarios no container
+
+3.
+criar .dotenv com variaveis de ambiente!
+generate secret key:
+python -c  "import string as s; from secrets import SystemRandom as SR;print(''.join(SR().choices(s.ascii_letters+s.digits+s.punctuation,k=64)))
+alterar coisas settings (env, media, url)
