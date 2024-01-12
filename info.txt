@@ -48,3 +48,8 @@ use shell: docker-compose run --rm djangoapp /bin/sh -c 'echo $SECRET_KEY'
 apos mudancas feitas, para correr p ex: docker-compose run djangoapp runserver.sh
 assim pudemos executar as linhas de comandos que queremso!!
 Nota: qq coisa mudada buildar pq pode nao estar na image!!
+
+7-
+to create super user - docker-compose run --rm djangoapp python manage.py createsuperuser
+to create app - docker-compose run --rm djangoapp python manage.py startapp blog
+create static and templates floders!! na app pq queremos mandar para o container!
