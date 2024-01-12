@@ -59,3 +59,6 @@ create static and templates floders!! na app pq queremos mandar para o container
 9-
 criar novo app que tem as configuracoes do site!
 e permite a um admin na area de aministrador configurar o site!
+
+10-
+Setup para usuario mudar cenas na pagina
