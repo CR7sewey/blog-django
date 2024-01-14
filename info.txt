@@ -75,3 +75,7 @@ para isso editar settings com context processor do sitesetup
 a cena é como estmos a usar docker, queremos que tudo suba a partir do requirements.txt
 nao basta fazer pip install - por no requirements a versao do pip
 temos de fazer build - faz instalacao e migracoes logo!
+
+14 - resizing image (para so dexiar png e tamanho limitado)
+crio um pacote chamado de utils para validar e resizing!
+ainda instalar no venv o pillow
