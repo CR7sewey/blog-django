@@ -62,3 +62,6 @@ e permite a um admin na area de aministrador configurar o site!
 
 10-
 Setup para usuario mudar cenas na pagina
+
+11-
+relacao entre menu link e sitesetup - one to many (um site para varios menulink)

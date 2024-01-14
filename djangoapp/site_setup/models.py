@@ -12,6 +12,11 @@ class MenuLink(models.Model):
     url_or_path = models.CharField(max_length=2048)
     # to open url in a new tab or not
     new_tab = models.BooleanField(default=False)
+    # when sitesetup is deleted -> menulink deleted
+    site_setup = models.ForeignKey('SiteSetup',
+                                   on_delete=models.CASCADE,
+                                   blank=True,
+                                   null=True)
 
     def __str__(self):
         return self.text
