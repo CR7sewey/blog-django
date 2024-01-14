@@ -65,3 +65,8 @@ Setup para usuario mudar cenas na pagina
 
 11-
 relacao entre menu link e sitesetup - one to many (um site para varios menulink)
+
+12 - context processor!
+Para injetar valores em todos os templates sem ter de ser pelo contxto da view!
+para isso editar settings com context processor do sitesetup
+(semelhante a aceder a user (request.user))
