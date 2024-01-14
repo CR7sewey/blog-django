@@ -70,3 +70,8 @@ relacao entre menu link e sitesetup - one to many (um site para varios menulink)
 Para injetar valores em todos os templates sem ter de ser pelo contxto da view!
 para isso editar settings com context processor do sitesetup
 (semelhante a aceder a user (request.user))
+
+13 - image 
+a cena é como estmos a usar docker, queremos que tudo suba a partir do requirements.txt
+nao basta fazer pip install - por no requirements a versao do pip
+temos de fazer build - faz instalacao e migracoes logo!
