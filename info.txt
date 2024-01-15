@@ -79,3 +79,9 @@ temos de fazer build - faz instalacao e migracoes logo!
 14 - resizing image (para so dexiar png e tamanho limitado)
 crio um pacote chamado de utils para validar e resizing!
 ainda instalar no venv o pillow
+
+15- ir vendo commits
+
+16- index.html carrega varios post, buscar por post, usuario, categorias executado
+post.html - carrega os posts
+page.html - carrega as paginas
