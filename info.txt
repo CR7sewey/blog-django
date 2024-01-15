@@ -88,3 +88,9 @@ page.html - carrega as paginas
 
 17 -
 Muita coisa alterada, ainda tem de ser linkada com os models em si!!
+
+18- 
+A foreign key entre MenuLink e SiteSetup esta no menulink,
+ou seja o menu link consegue saber que a sitesetup pertence, mas o site setup
+nao consegue diretamente aceder aos menu links correspondentes, no entanto da para fazer fazendo
+site_setup.menulink_set.all (pq é uma query) - assim temos acesso ao fillho (MenuLink) a partir do pai (SiteSetup)
