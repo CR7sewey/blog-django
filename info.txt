@@ -94,3 +94,18 @@ A foreign key entre MenuLink e SiteSetup esta no menulink,
 ou seja o menu link consegue saber que a sitesetup pertence, mas o site setup
 nao consegue diretamente aceder aos menu links correspondentes, no entanto da para fazer fazendo
 site_setup.menulink_set.all (pq é uma query) - assim temos acesso ao fillho (MenuLink) a partir do pai (SiteSetup)
+
+19- commits...
+
+20 - django summernote  -  https://github.com/summernote/django-summernote
+isntalar - pip install django-summernote
+add to requirements and build again: docker-compose up --build --remove-orphans --renew-anon-volumes --force-recreate
+installed apps nos settings - put summernote
+urls - put summernote
+MEDIA_URL amd ROOT and settings (media) - already done
+migration and collect static - posso buildar que ja faz tudo
+colocar num TextField
+
+POr na admin do Post e Page a herdar de SummerNoteField !
+cdn code mirror dracula - posto nos settings!
+fomos criar um model PostAttachemnt para subscrever o save do ambiente vitual e assim restringir a imagem ao que é aceite (tamanho, resizing)
