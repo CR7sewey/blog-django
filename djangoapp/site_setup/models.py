@@ -17,7 +17,8 @@ class MenuLink(models.Model):
     site_setup = models.ForeignKey('SiteSetup',
                                    on_delete=models.CASCADE,
                                    blank=True,
-                                   null=True)
+                                   null=True,
+                                   related_name="menu")
 
     def __str__(self):
         return self.text
