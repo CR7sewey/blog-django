@@ -1,3 +1,4 @@
+from typing import Any
 from django.contrib import admin
 from blog.models import Tag, Category, Page, Post
 # Register your models here.
@@ -52,3 +53,13 @@ class PostAdmin(admin.ModelAdmin):
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category',
+
+    # aqui isto pq so nesta pagina é que me interssa trabaçar os usuarios!
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        if change:  # True if update False if creating
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+            # obj.updated_by = request.user
+
+        return super().save_model(request, obj, form, change)
