@@ -3,6 +3,7 @@ from utils.rands import slugify_new
 from django.contrib.auth.models import User
 from utils.images import resize_image
 from django_summernote.models import AbstractAttachment
+from django.urls import reverse
 # Create your models here.
 
 
@@ -156,6 +157,15 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    # change in admin - button to see in site
+    # desta forma posso usar nos proprios templates para ir buscar o post em vez
+    # de fazer blog:post post.slug -> post.get_absolute_url
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse("blog:index")
+
+        return reverse("blog:post", args=(self.slug,))
 
 
 class PostAttachment(AbstractAttachment):  # override da classe

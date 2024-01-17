@@ -2,6 +2,8 @@ from typing import Any
 from django.contrib import admin
 from blog.models import Tag, Category, Page, Post
 from django_summernote.admin import SummernoteModelAdmin
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 # Register your models here.
 
 
@@ -51,13 +53,24 @@ class PostAdmin(SummernoteModelAdmin):
     list_filter = 'category', 'is_published',
     list_editable = 'is_published',
     ordering = '-id',
-    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by',  # automatico!
+    readonly_fields = ('created_at', 'updated_at', 'created_by',
+                       'updated_by', 'link',)  # automatico!
     prepopulated_fields = {
         "slug": ('title',),
     }
     autocomplete_fields = 'tags', 'category',
 
+    def link(self, obj):
+        if not obj.pk:
+            return '-'
+        url_do_post = obj.get_absolute_url()
+        # bellow was url_do_post before the moethod in models
+        # reverse('blog:post', args=(obj.slug,))  # transofram em /post/slug
+        return mark_safe(f'<a target="_blank" href="{url_do_post}">'
+                         # mark_safe to render (needs to be safe!!
+                         f'{obj.title}</a>')
     # aqui isto pq so nesta pagina é que me interssa trabaçar os usuarios!
+
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         if change:  # True if update False if creating
             obj.updated_by = request.user
