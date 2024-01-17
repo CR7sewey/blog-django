@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% include "blog/partials/_head.html" %}
+    {% block additional_head %}{% endblock additional_head %}
 </head>
 <body class="dark-theme">
     {% if site_setup.show_header %}
