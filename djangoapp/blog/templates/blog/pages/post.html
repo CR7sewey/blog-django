@@ -4,11 +4,11 @@
     <div class="single-post-content section-content-narrow">
       <div class="single-post-gap section-gap">
         <div class="single-post-cover pb-base">
-          <img loading="lazy" src="https://picsum.photos/1920/1080/?rand=12" alt="Change me">
+          <img loading="lazy" src="{{ post.cover.url }}" alt="Change me">
         </div>
   
         <h2 class="single-post-title pb-base center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          {{post.title}}
         </h2>
   
         <div class="post-meta pb-base">
@@ -16,7 +16,7 @@
             <a class="post-meta-link" href="#">
               <i class="fa-solid fa-user"></i>
               <span>
-                {{ user.username }}
+                {{ post.created_by }}
               </span>
             </a>
           </div>
@@ -24,7 +24,7 @@
             <a class="post-meta-link" href="#">
               <i class="fa-solid fa-calendar-days"></i>
               <span>
-                20/04/2023
+                {{ post.created_at }}
               </span>
             </a>
           </div>
@@ -32,26 +32,24 @@
             <a class="post-meta-link" href="#">
               <i class="fa-solid fa-tag"></i>
               <span>
-                Categoria
+                {{ post.category }}
               </span>
             </a>
           </div>
         </div>
   
         <p class="single-post-excerpt pb-base">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, vero
-          fugiat eum perferendis accusamus enim quos obcaecati. Voluptates a vel
-          obcaecati ipsa in dignissimos facere odio et, ab provident assumenda!
+          {{ post.excert }}
         </p>
   
         <div class="separator"></div>
   
         <div class="single-post-content">
-          {% include 'blog/partials/_temp.html' %} 
+          {{post.content}}
   
           <div class="post-tags">
             <span>Tags: </span>
-  
+                      
             <a class="post-tag-link" href="#">
               <i class="fa-solid fa-link"></i>
               <span>Testando</span>

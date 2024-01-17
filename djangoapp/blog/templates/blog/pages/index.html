@@ -5,8 +5,8 @@
       <div class="section-gap">
 
         <div class="card-grid">
-          {% for i in ""|ljust:"9" %}
-            {% include 'blog/partials/_post-card.html' with i=forloop.counter0 %}
+          {% for post in page_obj %}
+            {% include 'blog/partials/_post-card.html' %}
           {% endfor %}
         </div>
 
