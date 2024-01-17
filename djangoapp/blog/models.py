@@ -55,7 +55,15 @@ class Category(models.Model):
         return self.name
 
 
+class PostManager(models.Manager):
+    # self is objects! like a Post method that already do this filtering (check views!)
+    def get_published(self):
+        return self.filter(is_published=True).order_by('-id')
+
+
 class Page(models.Model):
+
+    objects = PostManager()
     title = models.CharField(max_length=65,)
     slug = models.SlugField(
         unique=True,
@@ -77,12 +85,6 @@ class Page(models.Model):
 
     def __str__(self) -> str:
         return self.title
-
-
-class PostManager(models.Manager):
-    # self is objects! like a Post method that already do this filtering (check views!)
-    def get_published(self):
-        return self.filter(is_published=True).order_by('-id')
 
 
 class Post(models.Model):

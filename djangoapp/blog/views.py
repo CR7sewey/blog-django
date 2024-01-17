@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from blog.models import Post
+from blog.models import Post, Page
 
 # Create your views here.
 # posts = list(range(1000))
@@ -33,8 +33,31 @@ def post(request, slug):
     return render(request, 'blog/pages/post.html', context,)
 
 
-def page(request):
+def page(request, slug):
     # Put x number os contacts into each page
+    page = get_object_or_404(Page, is_published=True, slug=slug)
+
+    context = {"page": page}
+    return render(request, 'blog/pages/page.html', context,)
+
+
+def created_by(request, author_pk):
+    # post = Post.objects.filter(is_published=True, slug=slug).first()
+    posts = Post.objects.get_published().filter(created_by__pk=author_pk)
+    paginator = Paginator(posts, PER_PAGE)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     context = {"page_obj": page_obj}
-    return render(request, 'blog/pages/page.html', context,)
+    return render(request, 'blog/pages/index.html', context,)
+
+
+def category(request, slug):
+    # post = Post.objects.filter(is_published=True, slug=slug).first()
+    posts = Post.objects.get_published().filter(category__slug=slug)
+    paginator = Paginator(posts, PER_PAGE)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
+    return render(request, 'blog/pages/index.html', context,)
