@@ -10,7 +10,7 @@ PER_PAGE = 9
 
 def index(request):
 
-    posts = Post.objects.filter(is_published=True).order_by('-id')
+    posts = Post.objects.get_published()  # type: ignore  # check models!
     # Put x number os contacts into each page
     paginator = Paginator(posts, PER_PAGE)
     page_number = request.GET.get("page")

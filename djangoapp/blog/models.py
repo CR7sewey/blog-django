@@ -78,10 +78,18 @@ class Page(models.Model):
         return self.title
 
 
+class PostManager(models.Manager):
+    # self is objects! like a Post method that already do this filtering (check views!)
+    def get_published(self):
+        return self.filter(is_published=True).order_by('-id')
+
+
 class Post(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
+
+    objects = PostManager()
 
     title = models.CharField(max_length=65,)
     slug = models.SlugField(
