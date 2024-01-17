@@ -52,13 +52,13 @@
       
   
         <p class="single-post-excerpt pb-base">
-          {{ post.excert }}
+          {{ post.excert | safe }}
         </p>
   
         <div class="separator"></div>
   
         <div class="single-post-content">
-          {{post.content}}
+          {{post.content | safe}}
   
           <div class="post-tags">
             <span>Tags: </span>
