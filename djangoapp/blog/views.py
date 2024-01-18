@@ -137,7 +137,6 @@ class CategoryListView(PostListView):
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self._temp_context: dict[str, Any] = {}
 
     # ha uma ordem em qual os metodos sao chamados
     # (setup, get, get_query_set etc ver doc)
@@ -187,6 +186,30 @@ def category(request, slug):
 '''
 
 
+class TagListView(PostListView):
+    allow_empty = False
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        # print("_____________________", self.object_list)  # tem os posts!
+        context.update({"page_title":
+                       # type: ignore
+                        f'{self.object_list[0].tags.first().name}'
+                        f' - Tag -'})
+        return context
+
+    # isto é primeiro que o get_context_data
+    def get_queryset(self) -> QuerySet[Any]:
+        print('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU')
+        queryset = super().get_queryset()
+        queryset = queryset.filter(tags__slug=self.kwargs.get('slug'))
+        return queryset
+
+
+'''
 def tag(request, slug):
     # post = Post.objects.filter(is_published=True, slug=slug).first()
     posts = Post.objects.get_published().filter(tags__slug=slug)
@@ -201,6 +224,7 @@ def tag(request, slug):
                # Manager de volta dai o first
                "page_title": page_obj[0].tags.first().name}
     return render(request, 'blog/pages/index.html', context,)
+'''
 
 
 def search(request):

@@ -13,7 +13,7 @@ urlpatterns = [
          views.CreatedByListView.as_view(), name='created_by'),
     path("category/<slug:slug>",
          views.CategoryListView.as_view(), name='category'),
-    path("tag/<slug:slug>", views.tag, name='tag'),
+    path("tag/<slug:slug>", views.TagListView.as_view(), name='tag'),
 
     # PAGES
     path("page/<slug:slug>", views.page, name='page'),
