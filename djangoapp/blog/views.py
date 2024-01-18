@@ -227,6 +227,44 @@ def tag(request, slug):
 '''
 
 
+class SearchListView(PostListView):
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._search_value = ''
+
+    def setup(self, request: HttpRequest, *args: Any, **kwargs: Any) -> None:
+        self._search_value = request.GET.get("search", '').strip()
+        return super().setup(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        searched_value = self._search_value
+        # print("_____________________", self.object_list)  # tem os posts!
+        context.update({"search": searched_value,
+                        "page_title":
+                       f'{searched_value[:15]} - Search - '})
+        return context
+
+    # este metodo pq queremso uma http response e o request!
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        # tudo o passado via url esta no kwargs
+        if self._search_value == '':
+            return redirect('blog:index')
+        return super().get(request, *args, **kwargs)
+
+    # isto é primeiro que o get_context_data
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        searched_value = self._search_value
+        queryset = queryset.filter(
+            Q(title__icontains=searched_value) |
+            Q(excert__icontains=searched_value) |
+            Q(content__icontains=searched_value))[0:PER_PAGE]
+        return queryset
+
+
+'''
 def search(request):
     searched_value = request.GET.get("search", '').strip()  # query
     print('---------------------', searched_value)
@@ -249,3 +287,4 @@ def search(request):
     context = {"page_obj": posts, "search": searched_value,
                "page_title": f'{searched_value[:15]} - Search - '}
     return render(request, 'blog/pages/index.html', context,)
+'''

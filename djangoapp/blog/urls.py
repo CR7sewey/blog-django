@@ -19,5 +19,5 @@ urlpatterns = [
     path("page/<slug:slug>", views.page, name='page'),
 
     # Search
-    path("search/", views.search, name='search'),
+    path("search/", views.SearchListView.as_view(), name='search'),
 ]
