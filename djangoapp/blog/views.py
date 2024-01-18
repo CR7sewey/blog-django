@@ -1,14 +1,42 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from blog.models import Post, Page
 from django.db.models import Q  # or
 from django.contrib.auth.models import User
+from django.views.generic.list import ListView
 
 # Create your views here.
 # posts = list(range(1000))
 
 PER_PAGE = 9
+
+
+class PostListView(ListView):  # Class based view - ListView
+    model = Post  # model a carregar
+    template_name = 'blog/pages/index.html'  # template a renderizar
+    # name with objects - in index is page_obj, aqui colide com o paginator
+    context_object_name = 'posts'
+    ordering = '-id',
+    paginate_by = PER_PAGE
+    # paginator_class = Paginator  - default
+    queryset = Post.objects.get_published()
+
+    # para query ou como em cima!
+    # def get_queryset(self) -> QuerySet[Any]:
+    #    queryset = super().get_queryset()
+    #    queryset = queryset.filter(is_published=True)
+    #    return queryset
+
+    # se quiser mexer no contexto
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        # metodo do dict para updatar
+        context.update({"page_title": "Home - "})
+        print(context)  # seeeeeeee the arguments!
+        return context
 
 
 def index(request):

@@ -4,7 +4,8 @@ from blog import views
 app_name = "blog"
 
 urlpatterns = [
-    path("", views.index, name='index'),
+    # views tem de ser callable (dai as_view)
+    path("", views.PostListView.as_view(), name='index'),
 
     # POSTS
     path("post/<slug:slug>", views.post, name='post'),

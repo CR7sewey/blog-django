@@ -109,3 +109,14 @@ colocar num TextField
 POr na admin do Post e Page a herdar de SummerNoteField !
 cdn code mirror dracula - posto nos settings!
 fomos criar um model PostAttachemnt para subscrever o save do ambiente vitual e assim restringir a imagem ao que é aceite (tamanho, resizing)
+
+21 - commits
+
+22 -
+Function Based Views - usar se funcao é simples, somente ler e renderizar
+Class Based Views (OOP) - qunaod tenho de distinguir se o metodo é get ou post pode dar jeito
+ou seja, qunaod ha logicas na view, usar class em geral
+https://docs.djangoproject.com/en/5.0/topics/class-based-views/
+https://docs.djangoproject.com/en/5.0/topics/class-based-views/intro/
+https://docs.djangoproject.com/pt-br/4.2/ref/class-based-views/
+sobreescrever metodos especificos!!!!!!!!
