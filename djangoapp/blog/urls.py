@@ -15,4 +15,6 @@ urlpatterns = [
     # PAGES
     path("page/<slug:slug>", views.page, name='page'),
 
+    # Search
+    path("search/", views.search, name='search'),
 ]
