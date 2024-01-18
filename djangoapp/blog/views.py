@@ -1,9 +1,9 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.http import Http404
+from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from blog.models import Post, Page
+from blog.models import Category, Post, Page
 from django.db.models import Q  # or
 from django.contrib.auth.models import User
 from django.views.generic.list import ListView
@@ -39,6 +39,7 @@ class PostListView(ListView):  # Class based view - ListView
         return context
 
 
+'''
 def index(request):
 
     posts = Post.objects.get_published()  # type: ignore  # check models!
@@ -49,6 +50,7 @@ def index(request):
 
     context = {"page_obj": page_obj, "page_title": "Home - "}
     return render(request, 'blog/pages/index.html', context,)
+'''
 
 
 def post(request, slug):
@@ -73,6 +75,7 @@ def page(request, slug):
     return render(request, 'blog/pages/page.html', context,)
 
 
+'''
 def created_by(request, author_pk):
     user = User.objects.filter(pk=author_pk).first()
     if user is None:
@@ -91,6 +94,42 @@ def created_by(request, author_pk):
     context = {"page_obj": page_obj,
                "page_title": user_full_name}
     return render(request, 'blog/pages/index.html', context,)
+'''
+
+
+class CreatedByListView(PostListView):  # herdar de algo ja qs
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._temp_context: dict[str, Any] = {}  # contexto temporario
+
+    # ha uma ordem em qual os metodos sao chamados
+    # (setup, get, get_query_set etc ver doc)
+    # tudo o passado via url esta no kwargs
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user = self._temp_context["page_title"]
+        user_full_name = user.username if not user.first_name else f'{
+            user.first_name} {user.last_name}'
+        user_full_name += ' posts - '
+        context.update({"page_title": user_full_name})
+        return context
+
+    # este metodo pq queremso uma http response!
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        # tudo o passado via url esta no kwargs
+        user = User.objects.filter(pk=self.kwargs.get('author_pk')).first()
+        if user is None:
+            raise Http404('This user does\'nt exists!')
+            # could return redirect('blog:index')
+        self._temp_context = {"page_title": user}
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            created_by__pk=self._temp_context["page_title"].pk)
+        return queryset
 
 
 def category(request, slug):
