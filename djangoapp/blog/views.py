@@ -7,6 +7,7 @@ from blog.models import Category, Post, Page
 from django.db.models import Q  # or
 from django.contrib.auth.models import User
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 # Create your views here.
 # posts = list(range(1000))
@@ -52,7 +53,7 @@ def index(request):
     return render(request, 'blog/pages/index.html', context,)
 '''
 
-
+'''
 def post(request, slug):
     # post = Post.objects.filter(is_published=True, slug=slug).first()
     post_obj = get_object_or_404(Post, is_published=True, slug=slug)
@@ -64,8 +65,50 @@ def post(request, slug):
 
     context = {"post": post_obj, "page_title": f'{post_obj.title} - Post - '}
     return render(request, 'blog/pages/post.html', context,)
+'''
 
 
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'blog/pages/page.html'
+    context_object_name = 'page'
+    slug_field = 'slug'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        print(context)
+        context.update({"page_title":
+                        f'{self.get_object().title} - Page - '})
+        return context
+
+    # este metodo pq queremso uma http response! - desnecessairo pq is_published ja faz!
+    # def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+
+    #   get_object_or_404(Page, slug=self.kwargs.get("slug"))
+    #   return super().get(request, *args, **kwargs)
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            is_published=True)  # desnecsasrio, slug=self.kwargs.get("slug"))
+        return queryset
+
+
+class PostDetailView(PageDetailView):
+    model = Post
+    template_name = 'blog/pages/post.html'
+    context_object_name = 'post'
+    # slug_field = 'slug'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        print(context)
+        context.update({"page_title":
+                        f'{self.get_object().title} - Post - '})
+        return context
+
+
+'''
 def page(request, slug):
     # Put x number os contacts into each page
     # ou Page-objects.filter(is_pub).filter(slug).first()
@@ -73,7 +116,7 @@ def page(request, slug):
 
     context = {"page": page_obj, "page_title": f'{page_obj.title} - Page - '}
     return render(request, 'blog/pages/page.html', context,)
-
+'''
 
 '''
 def created_by(request, author_pk):

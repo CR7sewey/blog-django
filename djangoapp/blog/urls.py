@@ -8,7 +8,7 @@ urlpatterns = [
     path("", views.PostListView.as_view(), name='index'),
 
     # POSTS
-    path("post/<slug:slug>", views.post, name='post'),
+    path("post/<slug:slug>", views.PostDetailView.as_view(), name='post'),
     path("created_by/<int:author_pk>",
          views.CreatedByListView.as_view(), name='created_by'),
     path("category/<slug:slug>",
@@ -16,7 +16,7 @@ urlpatterns = [
     path("tag/<slug:slug>", views.TagListView.as_view(), name='tag'),
 
     # PAGES
-    path("page/<slug:slug>", views.page, name='page'),
+    path("page/<slug:slug>", views.PageDetailView.as_view(), name='page'),
 
     # Search
     path("search/", views.SearchListView.as_view(), name='search'),
