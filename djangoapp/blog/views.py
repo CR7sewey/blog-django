@@ -36,6 +36,7 @@ def post(request, slug):
 
 def page(request, slug):
     # Put x number os contacts into each page
+    # ou Page-objects.filter(is_pub).filter(slug).first()
     page = get_object_or_404(Page, is_published=True, slug=slug)
 
     context = {"page": page}

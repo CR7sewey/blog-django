@@ -86,6 +86,12 @@ class Page(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse("blog:index")
+
+        return reverse("blog:page", args=(self.slug,))
+
 
 class Post(models.Model):
     class Meta:

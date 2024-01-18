@@ -41,6 +41,17 @@ class PageAdmin(SummernoteModelAdmin):
     ordering = ('-id',)
     # slug pre populado com o name!
     prepopulated_fields = {"slug": ('title',), }
+    readonly_fields = 'link',
+
+    def link(self, obj):
+        if not obj.pk:
+            return '-'
+        url_do_page = obj.get_absolute_url()
+        # bellow was url_do_post before the moethod in models
+        # reverse('blog:post', args=(obj.slug,))  # transofram em /post/slug
+        return mark_safe(f'<a target="_blank" href="{url_do_page}">'
+                         # mark_safe to render (needs to be safe!!
+                         f'{obj.title}</a>')
 
 
 @admin.register(Post)
