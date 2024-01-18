@@ -1,7 +1,9 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from blog.models import Post, Page
 from django.db.models import Q  # or
+from django.contrib.auth.models import User
 
 # Create your views here.
 # posts = list(range(1000))
@@ -17,51 +19,64 @@ def index(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {"page_obj": page_obj}
+    context = {"page_obj": page_obj, "page_title": "Home - "}
     return render(request, 'blog/pages/index.html', context,)
 
 
 def post(request, slug):
     # post = Post.objects.filter(is_published=True, slug=slug).first()
-    post = get_object_or_404(Post, is_published=True, slug=slug)
+    post_obj = get_object_or_404(Post, is_published=True, slug=slug)
 
     # Put x number os contacts into each page
     # paginator = Paginator(posts, 9)
     # page_number = request.GET.get("page")
     # page_obj = paginator.get_page(page_number)
 
-    context = {"post": post}
+    context = {"post": post_obj, "page_title": f'{post_obj.title} - Post - '}
     return render(request, 'blog/pages/post.html', context,)
 
 
 def page(request, slug):
     # Put x number os contacts into each page
     # ou Page-objects.filter(is_pub).filter(slug).first()
-    page = get_object_or_404(Page, is_published=True, slug=slug)
+    page_obj = get_object_or_404(Page, is_published=True, slug=slug)
 
-    context = {"page": page}
+    context = {"page": page_obj, "page_title": f'{page_obj.title} - Page - '}
     return render(request, 'blog/pages/page.html', context,)
 
 
 def created_by(request, author_pk):
+    user = User.objects.filter(pk=author_pk).first()
+    if user is None:
+        raise Http404('This user does\'nt exists!')
+
+    user_full_name = user.username if not user.first_name else f'{
+        user.first_name} {user.last_name}'
+    user_full_name += ' posts - '
+
     # post = Post.objects.filter(is_published=True, slug=slug).first()
     posts = Post.objects.get_published().filter(created_by__pk=author_pk)
     paginator = Paginator(posts, PER_PAGE)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {"page_obj": page_obj}
+    context = {"page_obj": page_obj,
+               "page_title": user_full_name}
     return render(request, 'blog/pages/index.html', context,)
 
 
 def category(request, slug):
     # post = Post.objects.filter(is_published=True, slug=slug).first()
     posts = Post.objects.get_published().filter(category__slug=slug)
+
     paginator = Paginator(posts, PER_PAGE)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    if len(page_obj) == 0:
+        raise Http404('This category does\'nt exist!')
 
-    context = {"page_obj": page_obj}
+    context = {"page_obj": page_obj,
+               "page_title": f'{page_obj[0].category.name} - '}
     return render(request, 'blog/pages/index.html', context,)
 
 
@@ -72,7 +87,12 @@ def tag(request, slug):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {"page_obj": page_obj}
+    if len(page_obj) == 0:
+        raise Http404('This tag does\'nt exist!')
+
+    context = {"page_obj": page_obj,
+               # Manager de volta dai o first
+               "page_title": page_obj[0].tags.first().name}
     return render(request, 'blog/pages/index.html', context,)
 
 
@@ -95,5 +115,6 @@ def search(request):
     # page_number = request.GET.get("page")
     # page_obj = paginator.get_page(page_number)
 
-    context = {"page_obj": posts, "search": searched_value}
+    context = {"page_obj": posts, "search": searched_value,
+               "page_title": f'{searched_value[:15]} - Search - '}
     return render(request, 'blog/pages/index.html', context,)
