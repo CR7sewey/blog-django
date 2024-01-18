@@ -132,6 +132,45 @@ class CreatedByListView(PostListView):  # herdar de algo ja qs
         return queryset
 
 
+class CategoryListView(PostListView):
+    allow_empty = False
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._temp_context: dict[str, Any] = {}
+
+    # ha uma ordem em qual os metodos sao chamados
+    # (setup, get, get_query_set etc ver doc)
+    # tudo o passado via url esta no kwargs
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        # print("_____________________", self.object_list)  # tem os posts!
+        context.update({"page_title":
+                       f'{self.object_list[0].category.name}'  # type: ignore
+                        f' - Category -'})
+        return context
+
+    # este metodo pq queremso uma http response!
+    # allow empty!
+    # def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    #    # tudo o passado via url esta no kwargs
+    #    posts = Post.objects.filter(category__slug=self.kwargs.get('slug'))
+    #    if posts is None:
+    #        raise Http404('This category does\'nt exist!')
+    #        # could return redirect('blog:index')
+    #    self._temp_context = {"category_name": posts[0].category.name}
+    #    return super().get(request, *args, **kwargs)
+
+    # isto é primeiro que o get_context_data
+    def get_queryset(self) -> QuerySet[Any]:
+        print('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU')
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category__slug=self.kwargs.get('slug'))
+        return queryset
+
+
+'''
 def category(request, slug):
     # post = Post.objects.filter(is_published=True, slug=slug).first()
     posts = Post.objects.get_published().filter(category__slug=slug)
@@ -145,6 +184,7 @@ def category(request, slug):
     context = {"page_obj": page_obj,
                "page_title": f'{page_obj[0].category.name} - '}
     return render(request, 'blog/pages/index.html', context,)
+'''
 
 
 def tag(request, slug):
