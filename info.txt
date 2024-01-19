@@ -120,3 +120,12 @@ https://docs.djangoproject.com/en/5.0/topics/class-based-views/
 https://docs.djangoproject.com/en/5.0/topics/class-based-views/intro/
 https://docs.djangoproject.com/pt-br/4.2/ref/class-based-views/
 sobreescrever metodos especificos!!!!!!!!
+
+23 - 
+para seguranca na area administrativa - pip install django-axes
+para carregar dotenv dentro do servidor (visto que la nao estamos a usar docker no deploy)
+para isso usar python-dotenv; pip install python-dotenv
+https://django-axes.readthedocs.io/en/latest/4_configuration.html
+https://pypi.org/project/python-dotenv/
+
+Nota: para desbloquear alguem - docker-compose run --rm djangoapp pyhton manage.py axes_reset
